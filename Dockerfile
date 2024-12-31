@@ -1,4 +1,4 @@
-FROM caddy-builder AS builder
+FROM caddy:latest-builder-alpine AS builder
 
 RUN xcaddy build \
     --with github.com/caddy-dns/cloudflare \
