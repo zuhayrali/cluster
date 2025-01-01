@@ -18,7 +18,6 @@ WORKDIR /llm/ollama
 
 # Expose GPU devices and X11 socket
 VOLUME ["/tmp/.X11-unix", "/root/.ollama"]
-DEVICE /dev/dri:/dev/dri
 
 # Entry point
 ENTRYPOINT ["./ollama", "serve"]
