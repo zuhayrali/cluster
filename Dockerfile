@@ -1,23 +1,17 @@
-# Base image
-FROM intelanalytics/ipex-llm-inference-cpp-xpu:latest
+FROM docker.io/intelanalytics/ipex-llm-inference-cpp-xpu:latest
 
-# Set environment variables
 ENV ZES_ENABLE_SYSMAN=1
 ENV OLLAMA_HOST=0.0.0.0:11434
-ENV DISPLAY=${DISPLAY}
+# ENV OLLAMA_INTEL_GPU=true
+ENV OLLAMA_KEEP_ALIVE=3600
+ENV DEVICE=Arc
 
-# Install dependencies if needed (add commands here, if applicable)
+RUN mkdir -p /llm/ollama; \
+    cd /llm/ollama; \
+    init-ollama;
 
-# Create necessary directories and initialize Ollama
-RUN mkdir -p /llm/ollama && \
-    cd /llm/ollama && \
-    init-ollama
+ENV LD_LIBRARY_PATH=".:$LD_LIBRARY_PATH"
 
-# Set the working directory
 WORKDIR /llm/ollama
 
-# Expose GPU devices and X11 socket
-VOLUME ["/tmp/.X11-unix", "/root/.ollama"]
-
-# Entry point
 ENTRYPOINT ["./ollama", "serve"]
